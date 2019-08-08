@@ -21,7 +21,7 @@ def evaluate(device, encoder, decoder, input_lang, output_lang, sentence, max_le
 
         decoder_input = torch.tensor([[SOS_token]], device=device)  # SOS
 
-        decoder_hidden = encoder_hidden
+        decoder_hidden = encoder_hidden[:encoder.layers, :, :] + encoder_hidden[encoder.layers:, :, :]
 
         decoded_words = []
         decoder_attentions = torch.zeros(max_length, max_length)
