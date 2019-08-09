@@ -10,7 +10,7 @@ from helper import timeSince
 # from plot import showPlot
 from model import EncoderRNN, AttnDecoderRNN
 
-teacher_forcing_ratio = 0.8
+teacher_forcing_ratio = 0.9
 
 def maskNLLLoss(inp, target, mask, device):
     nTotal = mask.sum()
@@ -157,11 +157,11 @@ def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_s
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     input_lang, output_lang, pairs = prepareData('eng', 'fra', True)
-    hidden_size = 256
+    hidden_size = 512
     batch_size = 64
     encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
     attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
-    trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, 10000, print_every=5)
+    trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, 25000, print_every=5)
 
 if __name__ == '__main__':
     main()

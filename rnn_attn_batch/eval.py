@@ -98,7 +98,7 @@ def evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang, n
 #         print('')
 
 def main():
-    nIters = 10000
+    nIters = 25000
     loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
     checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -107,7 +107,7 @@ def main():
     # If loading a model trained on GPU to CPU
     encoder_sd = checkpoint['en']
     decoder_sd = checkpoint['de']
-    hidden_size = 256
+    hidden_size = 512
     encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
     decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0).to(device)
     encoder.load_state_dict(encoder_sd)
