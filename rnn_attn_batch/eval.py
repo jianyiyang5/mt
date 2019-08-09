@@ -98,7 +98,7 @@ def evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang, n
 #         print('')
 
 def main():
-    nIters = 4000
+    nIters = 10000
     loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
     checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
