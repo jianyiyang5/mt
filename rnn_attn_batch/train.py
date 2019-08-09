@@ -101,7 +101,7 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     return sum(print_losses) / n_totals
 
 
-def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_size, n_iters, print_every=1000, plot_every=100, save_every=10000, learning_rate=0.01, save_dir='checkpoints'):
+def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_size, n_iters, print_every=1000, plot_every=100, save_every=500, learning_rate=0.01, save_dir='checkpoints'):
     start = time.time()
     plot_losses = []
     print_loss_total = 0  # Reset every print_every
@@ -161,7 +161,7 @@ def main():
     batch_size = 64
     encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
     attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
-    trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, 100000, print_every=5000)
+    trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, 4000, print_every=1)
 
 if __name__ == '__main__':
     main()
