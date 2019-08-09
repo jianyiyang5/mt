@@ -1,6 +1,6 @@
-
-SOS_token = 0
-EOS_token = 1
+PAD_token = 0  # Used for padding short sentences
+SOS_token = 1
+EOS_token = 2
 MAX_LENGTH = 10
 
 
@@ -9,7 +9,7 @@ class Lang:
         self.name = name
         self.word2index = {}
         self.word2count = {}
-        self.index2word = {0: "SOS", 1: "EOS"}
+        self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
         self.n_words = 2  # Count SOS and EOS
 
     def addSentence(self, sentence):

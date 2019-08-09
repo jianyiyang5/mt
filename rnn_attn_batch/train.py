@@ -4,67 +4,104 @@ import random
 import time
 import os
 from data import MAX_LENGTH, SOS_token, EOS_token
-from prepare_data import tensorsFromPair
+from prepare_data import tensorsFromPair, batch2TrainData
 from preprocess import prepareData
 from helper import timeSince
-from plot import showPlot
+# from plot import showPlot
 from model import EncoderRNN, AttnDecoderRNN
 
 teacher_forcing_ratio = 0.8
 
-def train(device, input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length=MAX_LENGTH):
-    encoder_hidden = encoder.initHidden()
+def maskNLLLoss(inp, target, mask, device):
+    nTotal = mask.sum()
+    crossEntropy = -torch.log(torch.gather(inp, 1, target.view(-1, 1)).squeeze(1))
+    loss = crossEntropy.masked_select(mask).mean()
+    loss = loss.to(device)
+    return loss, nTotal.item()
+
+def train(device, input_variable, lengths, target_variable, mask, max_target_len, encoder,
+                     decoder, encoder_optimizer, decoder_optimizer, batch_size, max_length=MAX_LENGTH):
+    # encoder_hidden = encoder.initHidden()
 
     encoder_optimizer.zero_grad()
     decoder_optimizer.zero_grad()
 
-    input_length = input_tensor.size(0)
-    target_length = target_tensor.size(0)
+    # Set device options
+    input_variable = input_variable.to(device)
+    lengths = lengths.to(device)
+    target_variable = target_variable.to(device)
+    mask = mask.to(device)
 
-    encoder_outputs = torch.zeros(max_length, encoder.hidden_size, device=device)
-
+    # Initialize variables
     loss = 0
+    print_losses = []
+    n_totals = 0
 
-    for ei in range(input_length):
-        encoder_output, encoder_hidden = encoder(
-            input_tensor[ei], encoder_hidden)
-        encoder_outputs[ei] = encoder_output[0, 0]
+    # Forward pass through encoder
+    encoder_outputs, encoder_hidden = encoder(input_variable, lengths)
 
-    decoder_input = torch.tensor([[SOS_token]], device=device)
+    # Create initial decoder input (start with SOS tokens for each sentence)
+    decoder_input = torch.LongTensor([[SOS_token for _ in range(batch_size)]])
+    decoder_input = decoder_input.to(device)
 
-    decoder_hidden = encoder_hidden[:encoder.layers, :, :] + encoder_hidden[encoder.layers:, :, :]
+    # Set initial decoder hidden state to the encoder's final hidden state
+    decoder_hidden = encoder_hidden[:decoder.layers]
 
+    # Determine if we are using teacher forcing this iteration
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
 
     if use_teacher_forcing:
         # Teacher forcing: Feed the target as the next input
-        for di in range(target_length):
-            decoder_output, decoder_hidden, decoder_attention = decoder(
-                decoder_input, decoder_hidden, encoder_outputs)
-            loss += criterion(decoder_output, target_tensor[di])
-            decoder_input = target_tensor[di]  # Teacher forcing
-
+        # for di in range(target_length):
+        #     decoder_output, decoder_hidden, decoder_attention = decoder(
+        #         decoder_input, decoder_hidden, encoder_outputs)
+        #     loss += criterion(decoder_output, target_tensor[di])
+        #     decoder_input = target_tensor[di]  # Teacher forcing
+        for t in range(max_target_len):
+            decoder_output, decoder_hidden = decoder(
+                decoder_input, decoder_hidden, encoder_outputs
+            )
+            # Teacher forcing: next input is current target
+            decoder_input = target_variable[t].view(1, -1)
+            # Calculate and accumulate loss
+            mask_loss, nTotal = maskNLLLoss(decoder_output, target_variable[t], mask[t], device)
+            loss += mask_loss
+            print_losses.append(mask_loss.item() * nTotal)
+            n_totals += nTotal
     else:
         # Without teacher forcing: use its own predictions as the next input
-        for di in range(target_length):
-            decoder_output, decoder_hidden, decoder_attention = decoder(
-                decoder_input, decoder_hidden, encoder_outputs)
-            topv, topi = decoder_output.topk(1)
-            decoder_input = topi.squeeze().detach()  # detach from history as input
-
-            loss += criterion(decoder_output, target_tensor[di])
-            if decoder_input.item() == EOS_token:
-                break
+        # for di in range(target_length):
+        #     decoder_output, decoder_hidden, decoder_attention = decoder(
+        #         decoder_input, decoder_hidden, encoder_outputs)
+        #     topv, topi = decoder_output.topk(1)
+        #     decoder_input = topi.squeeze().detach()  # detach from history as input
+        #
+        #     loss += criterion(decoder_output, target_tensor[di])
+        #     if decoder_input.item() == EOS_token:
+        #         break
+        for t in range(max_target_len):
+            decoder_output, decoder_hidden = decoder(
+                decoder_input, decoder_hidden, encoder_outputs
+            )
+            # No teacher forcing: next input is decoder's own current output
+            _, topi = decoder_output.topk(1)
+            decoder_input = torch.LongTensor([[topi[i][0] for i in range(batch_size)]])
+            decoder_input = decoder_input.to(device)
+            # Calculate and accumulate loss
+            mask_loss, nTotal = maskNLLLoss(decoder_output, target_variable[t], mask[t], device)
+            loss += mask_loss
+            print_losses.append(mask_loss.item() * nTotal)
+            n_totals += nTotal
 
     loss.backward()
 
     encoder_optimizer.step()
     decoder_optimizer.step()
 
-    return loss.item() / target_length
+    return sum(print_losses) / n_totals
 
 
-def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, n_iters, print_every=1000, plot_every=100, save_every=10000, learning_rate=0.01, save_dir='checkpoints'):
+def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_size, n_iters, print_every=1000, plot_every=100, save_every=10000, learning_rate=0.01, save_dir='checkpoints'):
     start = time.time()
     plot_losses = []
     print_loss_total = 0  # Reset every print_every
@@ -74,15 +111,17 @@ def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, n_iters
     decoder_optimizer = optim.SGD(decoder.parameters(), lr=learning_rate)
     training_pairs = [tensorsFromPair(random.choice(pairs), input_lang, output_lang, device)
                       for i in range(n_iters)]
-    criterion = nn.NLLLoss()
+    # criterion = nn.NLLLoss()
+    training_batches = [batch2TrainData(input_lang, output_lang, [random.choice(pairs) for _ in range(batch_size)])
+                        for _ in range(n_iters)]
 
     for iter in range(1, n_iters + 1):
-        training_pair = training_pairs[iter - 1]
-        input_tensor = training_pair[0]
-        target_tensor = training_pair[1]
+        training_batch = training_batches[iter - 1]
+        # Extract fields from batch
+        input_variable, lengths, target_variable, mask, max_target_len = training_batch
 
-        loss = train(device, input_tensor, target_tensor, encoder,
-                     decoder, encoder_optimizer, decoder_optimizer, criterion)
+        loss = train(device, input_variable, lengths, target_variable, mask, max_target_len, encoder,
+                     decoder, encoder_optimizer, decoder_optimizer, batch_size)
         print_loss_total += loss
         plot_loss_total += loss
 
@@ -113,15 +152,16 @@ def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, n_iters
                 'output_lang': output_lang.__dict__
             }, os.path.join(directory, '{}_{}.tar'.format(iter, 'checkpoint')))
 
-    showPlot(plot_losses)
+    # showPlot(plot_losses)
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     input_lang, output_lang, pairs = prepareData('eng', 'fra', True)
     hidden_size = 256
-    encoder1 = EncoderRNN(input_lang.n_words, hidden_size, device).to(device)
-    attn_decoder1 = AttnDecoderRNN(hidden_size, output_lang.n_words, device, dropout_p=0.1).to(device)
-    trainIters(device, pairs, input_lang, output_lang, encoder1, attn_decoder1, 100000, print_every=5000)
+    batch_size = 64
+    encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
+    attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
+    trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, 100000, print_every=5000)
 
 if __name__ == '__main__':
     main()
