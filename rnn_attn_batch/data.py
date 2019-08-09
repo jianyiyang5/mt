@@ -10,7 +10,7 @@ class Lang:
         self.word2index = {}
         self.word2count = {}
         self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
-        self.n_words = 2  # Count SOS and EOS
+        self.n_words = 3  # Count PAD, SOS and EOS
 
     def addSentence(self, sentence):
         for word in sentence.split(' '):
