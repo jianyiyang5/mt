@@ -1,6 +1,6 @@
 import torch
 import itertools
-from data import EOS_token, PAD_token
+from data import EOS_token, PAD_token, UNK_token
 
 def indexesFromSentence(lang, sentence):
     return [lang.word2index[word] for word in sentence.split(' ')]
@@ -18,7 +18,7 @@ def tensorsFromPair(pair, input_lang, output_lang, device):
     return (input_tensor, target_tensor)
 
 def indexesFromSentence2(lang, sentence):
-    return [lang.word2index[word] if word in lang.word2index else lang.word2index['UNK'] for word in sentence.split(' ')] + [EOS_token]
+    return [lang.word2index[word] if word in lang.word2index else UNK_token for word in sentence.split(' ')] + [EOS_token]
 
 def zeroPadding(l, fillvalue=PAD_token):
     return list(itertools.zip_longest(*l, fillvalue=fillvalue))
