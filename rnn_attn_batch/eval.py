@@ -53,6 +53,10 @@ def evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang, n
         print('')
 
 def decode(device, pairs, encoder, decoder, input_lang, output_lang):
+    with open("test/test.ref", "w", encoding='utf-8') as f:
+        for pair in pairs:
+            f.write(pair[1] + '\n')
+
     with open("test/test.hyp", "w", encoding='utf-8') as f:
         searcher = GreedySearchDecoder(encoder, decoder, device)
         for pair in pairs:

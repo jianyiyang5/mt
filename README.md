@@ -1,6 +1,6 @@
 ####to do list
 - [x] LSTM+Attn+GPU, 8/8/2019
-- [ ] BLEU score
+- [x] BLEU score, 8/10
 - [ ] plot
 - [ ] beam search
 - [ ] bpe
