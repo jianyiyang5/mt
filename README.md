@@ -1,0 +1,18 @@
+####to do list
+- [x] LSTM+Attn+GPU, 8/8/2019
+- [ ] BLEU score
+- [ ] plot
+- [ ] beam search
+- [ ] bpe
+- [ ] en-zh, zh-en
+- [ ] multi gpu
+- [ ] multi node
+- [ ] transformer
+- [ ] larger batch size, accumulate gradient, large lr, half precision
+- [ ] beam search pruning
+- [ ] bottleneck layer
+- [ ] avg attn
+- [ ] shortlist
+- [ ] data selection?
+- [ ] common crawl?
+- [ ] cnn
