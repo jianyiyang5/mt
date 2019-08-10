@@ -52,6 +52,14 @@ def evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang, n
         print('<', output_sentence)
         print('')
 
+def decode(device, pairs, encoder, decoder, input_lang, output_lang):
+    with open("test/test.hyp", "w", encoding='utf-8') as f:
+        searcher = GreedySearchDecoder(encoder, decoder, device)
+        for pair in pairs:
+            output_words = evaluate(device, searcher, input_lang, output_lang, pair[0], max_length=MAX_LENGTH)
+            output_sentence = ' '.join(output_words).replace('EOS', '').strip()
+            f.write(output_sentence + '\n')
+
 # def evaluate(device, encoder, decoder, input_lang, output_lang, sentence, max_length=MAX_LENGTH):
 #     with torch.no_grad():
 #         input_tensor = tensorFromSentence(input_lang, sentence, device)
@@ -103,7 +111,7 @@ def main():
     checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    input_lang, output_lang, pairs = prepareData('eng', 'fra', True)
+    input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data')
     # If loading a model trained on GPU to CPU
     encoder_sd = checkpoint['en']
     decoder_sd = checkpoint['de']
@@ -117,6 +125,8 @@ def main():
     input_lang.__dict__ = checkpoint['input_lang']
     output_lang.__dict__ = checkpoint['output_lang']
     evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang)
+    _, _, test_pairs = prepareData('eng', 'fra', True, 'test')
+    decode(device, test_pairs, encoder, decoder, input_lang, output_lang)
 
 if __name__ == '__main__':
     main()

@@ -12,10 +12,13 @@ with open("data/eng-fra.txt", "w", encoding='utf-8') as f:
 
 f_en = open("test/test.en", "w", encoding='utf-8')
 f_fr = open("test/test.fr", "w", encoding='utf-8')
+f_all = open('test/%s-%s.txt' % ('eng', 'fra'), 'w', encoding='utf-8')
 for row in x_test:
     cols = row.split('\t')
     f_en.write(cols[0]+'\n')
     f_fr.write(cols[1]+'\n')
+    f_all.write(row+'\n')
 
 f_en.close()
 f_fr.close()
+f_all.close()
