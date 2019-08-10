@@ -125,7 +125,7 @@ def main():
     input_lang.__dict__ = checkpoint['input_lang']
     output_lang.__dict__ = checkpoint['output_lang']
     evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang)
-    _, _, test_pairs = prepareData('eng', 'fra', True, 'test')
+    _, _, test_pairs = prepareData('eng', 'fra', True, dir='test', filter=False)
     decode(device, test_pairs, encoder, decoder, input_lang, output_lang)
 
 if __name__ == '__main__':
