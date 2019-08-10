@@ -156,10 +156,10 @@ def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_s
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    input_lang, output_lang, pairs = prepareData('eng', 'fra', True)
+    input_lang, output_lang, pairs = prepareData('eng', 'fra', True, dir='data', filter=False)
     hidden_size = 512
     batch_size = 64
-    iters = 25000
+    iters = 35000
     encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
     attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
     trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, iters, print_every=5)

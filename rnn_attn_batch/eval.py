@@ -106,7 +106,7 @@ def decode(device, pairs, encoder, decoder, input_lang, output_lang):
 #         print('')
 
 def main():
-    nIters = 25000
+    nIters = 35000
     loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
     checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
