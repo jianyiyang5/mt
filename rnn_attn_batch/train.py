@@ -21,8 +21,6 @@ def maskNLLLoss(inp, target, mask, device):
 
 def train(device, input_variable, lengths, target_variable, mask, max_target_len, encoder,
                      decoder, encoder_optimizer, decoder_optimizer, batch_size, max_length=MAX_LENGTH):
-    # encoder_hidden = encoder.initHidden()
-
     encoder_optimizer.zero_grad()
     decoder_optimizer.zero_grad()
 
@@ -51,12 +49,6 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
 
     if use_teacher_forcing:
-        # Teacher forcing: Feed the target as the next input
-        # for di in range(target_length):
-        #     decoder_output, decoder_hidden, decoder_attention = decoder(
-        #         decoder_input, decoder_hidden, encoder_outputs)
-        #     loss += criterion(decoder_output, target_tensor[di])
-        #     decoder_input = target_tensor[di]  # Teacher forcing
         for t in range(max_target_len):
             decoder_output, decoder_hidden = decoder(
                 decoder_input, decoder_hidden, encoder_outputs
@@ -69,16 +61,6 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
             print_losses.append(mask_loss.item() * nTotal)
             n_totals += nTotal
     else:
-        # Without teacher forcing: use its own predictions as the next input
-        # for di in range(target_length):
-        #     decoder_output, decoder_hidden, decoder_attention = decoder(
-        #         decoder_input, decoder_hidden, encoder_outputs)
-        #     topv, topi = decoder_output.topk(1)
-        #     decoder_input = topi.squeeze().detach()  # detach from history as input
-        #
-        #     loss += criterion(decoder_output, target_tensor[di])
-        #     if decoder_input.item() == EOS_token:
-        #         break
         for t in range(max_target_len):
             decoder_output, decoder_hidden = decoder(
                 decoder_input, decoder_hidden, encoder_outputs
@@ -111,7 +93,6 @@ def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_s
     decoder_optimizer = optim.SGD(decoder.parameters(), lr=learning_rate)
     training_pairs = [tensorsFromPair(random.choice(pairs), input_lang, output_lang, device)
                       for i in range(n_iters)]
-    # criterion = nn.NLLLoss()
     training_batches = [batch2TrainData(input_lang, output_lang, [random.choice(pairs) for _ in range(batch_size)])
                         for _ in range(n_iters)]
 

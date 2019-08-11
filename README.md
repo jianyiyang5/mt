@@ -1,6 +1,8 @@
 ####to do list
 - [x] LSTM+Attn+GPU, 8/8/2019
 - [x] BLEU score, 8/10
+  - BLEU = 43.14, 72.4/48.9/36.4/28.1 (BP=0.990, ratio=0.990, hyp_len=100959, ref_len=102002)
+- [ ] batch decode
 - [ ] plot
 - [ ] beam search
 - [ ] bpe
