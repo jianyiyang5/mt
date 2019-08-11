@@ -110,12 +110,12 @@ def decode(device, pairs, encoder, decoder, input_lang, output_lang):
 #         print('')
 
 def main():
-    nIters = 35000
+    nIters = 50000
     loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
     checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data')
+    input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data', filter=False)
     # If loading a model trained on GPU to CPU
     encoder_sd = checkpoint['en']
     decoder_sd = checkpoint['de']
