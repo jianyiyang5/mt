@@ -35,7 +35,7 @@ class GreedySearchDecoder(nn.Module):
 
 class GreedySearchDecoderBatch(nn.Module):
     def __init__(self, encoder, decoder, device):
-        super(GreedySearchDecoder, self).__init__()
+        super(GreedySearchDecoderBatch, self).__init__()
         self.encoder = encoder
         self.decoder = decoder
         self.device = device

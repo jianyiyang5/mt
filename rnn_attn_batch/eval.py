@@ -65,7 +65,7 @@ def evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang, n
         print('>', pair[0])
         print('=', pair[1])
         output_words = evaluate(device, searcher, input_lang, output_lang, pair[0], max_length=MAX_LENGTH)
-        output_sentence = ' '.join(output_words)
+        output_sentence = ' '.join(output_words).replace('EOS', '').strip()
         print('<', output_sentence)
         print('')
 
