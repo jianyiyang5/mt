@@ -5,7 +5,7 @@ from data import MAX_LENGTH, SOS_token, EOS_token
 from prepare_data import tensorFromSentence, indexesFromSentence2
 from preprocess import prepareData
 from model import EncoderRNN, AttnDecoderRNN
-from decode import GreedySearchDecoder
+from decode import GreedySearchDecoder, GreedySearchDecoderBatch
 
 def evaluate(device, searcher, input_voc, output_voc, sentence, max_length=MAX_LENGTH):
     ### Format input sentence as a batch
@@ -22,6 +22,23 @@ def evaluate(device, searcher, input_voc, output_voc, sentence, max_length=MAX_L
     tokens, scores = searcher(input_batch, lengths, max_length)
     # indexes -> words
     decoded_words = [output_voc.index2word[token.item()] for token in tokens]
+    return decoded_words
+
+def evaluate_batch(device, searcher, input_voc, output_voc, sentences, max_length=MAX_LENGTH):
+    ### Format input sentence as a batch
+    # words -> indexes
+    indexes_batch = [indexesFromSentence2(input_voc, sentence) for sentence in sentences]
+    # Create lengths tensor
+    lengths = torch.tensor([len(indexes) for indexes in indexes_batch])
+    # Transpose dimensions of batch to match models' expectations
+    input_batch = torch.LongTensor(indexes_batch).transpose(0, 1)
+    # Use appropriate device
+    input_batch = input_batch.to(device)
+    lengths = lengths.to(device)
+    # Decode sentence with searcher
+    all_tokens, all_scores = searcher(input_batch, lengths, max_length)
+    # indexes -> words
+    decoded_words = [[output_voc.index2word[token.item()] for token in tokens] for tokens in all_tokens]
     return decoded_words
 
 def evaluateInput(device, searcher, input_voc, output_voc):
@@ -64,6 +81,21 @@ def decode(device, pairs, encoder, decoder, input_lang, output_lang):
             output_sentence = ' '.join(output_words).replace('EOS', '').strip()
             f.write(output_sentence + '\n')
 
+def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch_size=64):
+    with open("test/test.ref", "w", encoding='utf-8') as f:
+        for pair in pairs:
+            f.write(pair[1] + '\n')
+
+    with open("test/test.hyp", "w", encoding='utf-8') as f:
+        searcher = GreedySearchDecoderBatch(encoder, decoder, device)
+        i = 0
+        while i < len(pairs):
+            sentences = [pairs[j][0] for j in range(i, min(i+batch_size, len(pairs)))]
+            all_output_words = evaluate_batch(device, searcher, input_lang, output_lang, sentences, max_length=MAX_LENGTH)
+            for output_words in all_output_words:
+                output_sentence = ' '.join(output_words).replace('EOS', '').strip()
+                f.write(output_sentence + '\n')
+
 def main():
     nIters = 50000
     loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
@@ -85,7 +117,7 @@ def main():
     output_lang.__dict__ = checkpoint['output_lang']
     evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang)
     _, _, test_pairs = prepareData('eng', 'fra', True, dir='test', filter=False)
-    decode(device, test_pairs, encoder, decoder, input_lang, output_lang)
+    decode_batch(device, test_pairs, encoder, decoder, input_lang, output_lang, batch_size=64)
 
 if __name__ == '__main__':
     main()
