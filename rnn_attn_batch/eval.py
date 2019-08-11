@@ -2,7 +2,7 @@ import torch
 import os
 import random
 from data import MAX_LENGTH, SOS_token, EOS_token, Lang
-from prepare_data import tensorFromSentence, indexesFromSentence2
+from prepare_data import tensorFromSentence, indexesFromSentence2, batch2TrainData
 from preprocess import prepareData
 from model import EncoderRNN, AttnDecoderRNN
 from decode import GreedySearchDecoder, GreedySearchDecoderBatch
@@ -24,14 +24,15 @@ def evaluate(device, searcher, input_voc, output_voc, sentence, max_length=MAX_L
     decoded_words = [output_voc.index2word[token.item()] for token in tokens]
     return decoded_words
 
-def evaluate_batch(device, searcher, input_voc, output_voc, sentences, max_length=MAX_LENGTH):
+def evaluate_batch(device, searcher, input_voc, output_voc, pair_batch, max_length=MAX_LENGTH):
     ### Format input sentence as a batch
     # words -> indexes
-    indexes_batch = [indexesFromSentence2(input_voc, sentence) for sentence in sentences]
+    # indexes_batch = [indexesFromSentence2(input_voc, sentence) for sentence in sentences]
+    input_batch, lengths, output, mask, max_target_len = batch2TrainData(input_voc, output_voc, pair_batch)
     # Create lengths tensor
-    lengths = torch.tensor([len(indexes) for indexes in indexes_batch])
+    # lengths = torch.tensor([len(indexes) for indexes in indexes_batch])
     # Transpose dimensions of batch to match models' expectations
-    input_batch = torch.LongTensor(indexes_batch).transpose(0, 1)
+    # input_batch = torch.LongTensor(indexes_batch).transpose(0, 1)
     # Use appropriate device
     input_batch = input_batch.to(device)
     lengths = lengths.to(device)
@@ -90,8 +91,9 @@ def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch
         searcher = GreedySearchDecoderBatch(encoder, decoder, device)
         i = 0
         while i < len(pairs):
-            sentences = [pairs[j][0] for j in range(i, min(i+batch_size, len(pairs)))]
-            all_output_words = evaluate_batch(device, searcher, input_lang, output_lang, sentences, max_length=MAX_LENGTH)
+            # sentences = [pairs[j][0] for j in range(i, min(i+batch_size, len(pairs)))]
+            all_output_words = evaluate_batch(device, searcher, input_lang, output_lang,
+                                              pairs[i:min(i+batch_size, len(pairs))], max_length=MAX_LENGTH)
             for output_words in all_output_words:
                 output_sentence = ' '.join(output_words).replace('EOS', '').strip()
                 f.write(output_sentence + '\n')
@@ -99,14 +101,16 @@ def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch
 
 def main():
     nIters = 50000
-    loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
-    checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    loadFilename = os.path.join('checkpoints', '{}_{}.tar'.format(nIters, 'checkpoint'))
+    checkpoint = torch.load(loadFilename, map_location=device)
 
     # input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data', filter=False)
     # If loading a model trained on GPU to CPU
     encoder_sd = checkpoint['en']
+    encoder_sd.eval()
     decoder_sd = checkpoint['de']
+    decoder_sd.eval()
     hidden_size = 512
     input_lang = Lang('fra')
     output_lang = Lang('eng')
