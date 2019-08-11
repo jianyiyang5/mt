@@ -95,6 +95,7 @@ def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch
             for output_words in all_output_words:
                 output_sentence = ' '.join(output_words).replace('EOS', '').strip()
                 f.write(output_sentence + '\n')
+            i += batch_size
 
 def main():
     nIters = 50000
