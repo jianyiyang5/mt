@@ -1,7 +1,7 @@
 import torch
 import os
 import random
-from data import MAX_LENGTH, SOS_token, EOS_token
+from data import MAX_LENGTH, SOS_token, EOS_token, Lang
 from prepare_data import tensorFromSentence, indexesFromSentence2
 from preprocess import prepareData
 from model import EncoderRNN, AttnDecoderRNN
@@ -103,21 +103,23 @@ def main():
     checkpoint = torch.load(loadFilename)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data', filter=False)
+    # input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data', filter=False)
     # If loading a model trained on GPU to CPU
     encoder_sd = checkpoint['en']
     decoder_sd = checkpoint['de']
     hidden_size = 512
+    input_lang = Lang('fra')
+    output_lang = Lang('eng')
+    input_lang.__dict__ = checkpoint['input_lang']
+    output_lang.__dict__ = checkpoint['output_lang']
     encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
     decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0).to(device)
     encoder.load_state_dict(encoder_sd)
     decoder.load_state_dict(decoder_sd)
     # encoder_optimizer_sd = checkpoint['en_opt']
     # decoder_optimizer_sd = checkpoint['de_opt']
-    input_lang.__dict__ = checkpoint['input_lang']
-    output_lang.__dict__ = checkpoint['output_lang']
-    evaluateRandomly(device, pairs, encoder, decoder, input_lang, output_lang)
     _, _, test_pairs = prepareData('eng', 'fra', True, dir='test', filter=False)
+    evaluateRandomly(device, test_pairs, encoder, decoder, input_lang, output_lang)
     decode_batch(device, test_pairs, encoder, decoder, input_lang, output_lang, batch_size=64)
 
 if __name__ == '__main__':
