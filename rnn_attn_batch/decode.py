@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from data import SOS_token
+from data import SOS_token, EOS_token
 
 class GreedySearchDecoder(nn.Module):
     def __init__(self, encoder, decoder, device):
@@ -48,11 +48,14 @@ class GreedySearchDecoderBatch(nn.Module):
         # Create initial decoder input (start with SOS tokens for each sentence)
         decoder_input = torch.LongTensor([[SOS_token for _ in range(input_seqs.size()[1])]])
         decoder_input = decoder_input.to(self.device)
+        eos = torch.LongTensor([[EOS_token for _ in range(input_seqs.size()[1])]]).to(self.device)
         # Initialize tensors to append decoded words to
         all_tokens = torch.zeros([input_seqs.size()[1],0], device=self.device, dtype=torch.long)
         all_scores = torch.zeros([input_seqs.size()[1],0], device=self.device)
         # Iteratively decode one word token at a time
         for _ in range(max_length):
+            if torch.equal(decoder_input, eos):
+                break
             # Forward pass through decoder
             decoder_output, decoder_hidden = self.decoder(decoder_input, decoder_hidden, encoder_outputs)
             # Obtain most likely word token and its softmax score
