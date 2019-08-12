@@ -62,3 +62,13 @@ def batch2TrainData(src_voc, tar_voc, pair_batch):
     inp, lengths = inputVar(input_batch, src_voc)
     output, mask, max_target_len = outputVar(output_batch, tar_voc)
     return inp, lengths, output, mask, max_target_len
+
+def batch2TrainData2(src_voc, tar_voc, pair_batch):
+    pair_batch.sort(key=lambda x: len(x[0].split(" ")), reverse=True)
+    input_batch, output_batch = [], []
+    for pair in pair_batch:
+        input_batch.append(pair[0])
+        output_batch.append(pair[1])
+    inp, lengths = inputVar(input_batch, src_voc)
+    output, mask, max_target_len = outputVar(output_batch, tar_voc)
+    return inp, lengths, output, mask, max_target_len, pair_batch

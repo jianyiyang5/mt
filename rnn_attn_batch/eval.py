@@ -2,7 +2,7 @@ import torch
 import os
 import random
 from data import MAX_LENGTH, SOS_token, EOS_token, Lang
-from prepare_data import tensorFromSentence, indexesFromSentence2, batch2TrainData
+from prepare_data import tensorFromSentence, indexesFromSentence2, batch2TrainData2
 from preprocess import prepareData
 from model import EncoderRNN, AttnDecoderRNN
 from decode import GreedySearchDecoder, GreedySearchDecoderBatch
@@ -28,7 +28,7 @@ def evaluate_batch(device, searcher, input_voc, output_voc, pair_batch, max_leng
     ### Format input sentence as a batch
     # words -> indexes
     # indexes_batch = [indexesFromSentence2(input_voc, sentence) for sentence in sentences]
-    input_batch, lengths, output, mask, max_target_len = batch2TrainData(input_voc, output_voc, pair_batch)
+    input_batch, lengths, output, mask, max_target_len, pair_batch = batch2TrainData2(input_voc, output_voc, pair_batch)
     # Create lengths tensor
     # lengths = torch.tensor([len(indexes) for indexes in indexes_batch])
     # Transpose dimensions of batch to match models' expectations
@@ -40,7 +40,8 @@ def evaluate_batch(device, searcher, input_voc, output_voc, pair_batch, max_leng
     all_tokens, all_scores = searcher(input_batch, lengths, max_length)
     # indexes -> words
     decoded_words = [[output_voc.index2word[token.item()] for token in tokens] for tokens in all_tokens]
-    return decoded_words
+    ref_sentences = [pair[1] for pair in pair_batch]
+    return decoded_words, ref_sentences
 
 def evaluateInput(device, searcher, input_voc, output_voc):
     input_sentence = ''
@@ -83,21 +84,29 @@ def decode(device, pairs, encoder, decoder, input_lang, output_lang):
             f.write(output_sentence + '\n')
 
 def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch_size=64):
-    with open("test/test.ref", "w", encoding='utf-8') as f:
-        for pair in pairs:
-            f.write(pair[1] + '\n')
-
+    # with open("test/test.ref", "w", encoding='utf-8') as f:
+    #     for pair in pairs:
+    #         f.write(pair[1] + '\n')
+    f_ref = open("test/test.ref", "w", encoding='utf-8')
     with open("test/test.hyp", "w", encoding='utf-8') as f:
         searcher = GreedySearchDecoderBatch(encoder, decoder, device)
         i = 0
+        k = 0
         while i < len(pairs):
+            k += 1
+            if k % 100 == 0:
+                print('decoding i=%d'%i)
             # sentences = [pairs[j][0] for j in range(i, min(i+batch_size, len(pairs)))]
-            all_output_words = evaluate_batch(device, searcher, input_lang, output_lang,
+            all_output_words, ref_sentences = evaluate_batch(device, searcher, input_lang, output_lang,
                                               pairs[i:min(i+batch_size, len(pairs))], max_length=MAX_LENGTH)
-            for output_words in all_output_words:
+            for j in range(len(ref_sentences)):
+            # for output_words in all_output_words:
+                output_words = all_output_words[j]
                 output_sentence = ' '.join(output_words).replace('EOS', '').strip()
                 f.write(output_sentence + '\n')
+                f_ref.write(ref_sentences[j] + '\n')
             i += batch_size
+    f_ref.close()
 
 def main():
     nIters = 50000
@@ -108,9 +117,9 @@ def main():
     # input_lang, output_lang, pairs = prepareData('eng', 'fra', True, 'data', filter=False)
     # If loading a model trained on GPU to CPU
     encoder_sd = checkpoint['en']
-    encoder_sd.eval()
+    encoder_sd
     decoder_sd = checkpoint['de']
-    decoder_sd.eval()
+    decoder_sd
     hidden_size = 512
     input_lang = Lang('fra')
     output_lang = Lang('eng')
@@ -120,6 +129,8 @@ def main():
     decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0).to(device)
     encoder.load_state_dict(encoder_sd)
     decoder.load_state_dict(decoder_sd)
+    encoder.eval()
+    decoder.eval()
     # encoder_optimizer_sd = checkpoint['en_opt']
     # decoder_optimizer_sd = checkpoint['de_opt']
     _, _, test_pairs = prepareData('eng', 'fra', True, dir='test', filter=False)
