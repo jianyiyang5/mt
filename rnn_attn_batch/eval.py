@@ -1,11 +1,13 @@
 import torch
 import os
 import random
+import time
 from data import MAX_LENGTH, SOS_token, EOS_token, Lang
 from prepare_data import tensorFromSentence, indexesFromSentence2, batch2TrainData2
 from preprocess import prepareData
 from model import EncoderRNN, AttnDecoderRNN
 from decode import GreedySearchDecoder, GreedySearchDecoderBatch
+from helper import timeSince
 
 def evaluate(device, searcher, input_voc, output_voc, sentence, max_length=MAX_LENGTH):
     ### Format input sentence as a batch
@@ -87,6 +89,7 @@ def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch
     # with open("test/test.ref", "w", encoding='utf-8') as f:
     #     for pair in pairs:
     #         f.write(pair[1] + '\n')
+    start = time.time()
     f_ref = open("test/test.ref", "w", encoding='utf-8')
     with open("test/test.hyp", "w", encoding='utf-8') as f:
         searcher = GreedySearchDecoderBatch(encoder, decoder, device)
@@ -94,8 +97,8 @@ def decode_batch(device, pairs, encoder, decoder, input_lang, output_lang, batch
         k = 0
         while i < len(pairs):
             k += 1
-            if k % 100 == 0:
-                print('decoding i=%d'%i)
+            if k % 10 == 0:
+                print('%s, batch=%d, i=%d' % (timeSince(start, i / len(pairs)), k, i))
             # sentences = [pairs[j][0] for j in range(i, min(i+batch_size, len(pairs)))]
             all_output_words, ref_sentences = evaluate_batch(device, searcher, input_lang, output_lang,
                                               pairs[i:min(i+batch_size, len(pairs))], max_length=MAX_LENGTH)
