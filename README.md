@@ -13,7 +13,7 @@
 - [ ] en-zh, zh-en
 - [ ] multi gpu
 - [ ] multi node
-- [ ] transformer
+- [x] transformer
 - [ ] larger batch size, accumulate gradient, large lr, half precision
 - [ ] beam search pruning
 - [ ] bottleneck layer
