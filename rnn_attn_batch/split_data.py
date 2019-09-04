@@ -2,7 +2,7 @@ import random
 from sklearn.model_selection import train_test_split
 import numpy
 
-lines = open('data/%s-%s.raw' % ('eng', 'fra'), encoding='utf-8').\
+lines = open('data/%s-%s.bpe' % ('eng', 'fra'), encoding='utf-8').\
         read().strip().split('\n')
 data = numpy.array(lines)
 x_train, x_test = train_test_split(data, test_size=0.1)
