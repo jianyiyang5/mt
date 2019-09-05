@@ -7,7 +7,7 @@ from data import MAX_LENGTH, SOS_token, EOS_token
 from prepare_data import tensorsFromPair, batch2TrainData
 from preprocess import prepareData
 from helper import timeSince
-# from plot import showPlot
+from plot import showPlot
 from model import EncoderRNN, AttnDecoderRNN
 
 teacher_forcing_ratio = 0.9
@@ -133,7 +133,7 @@ def trainIters(device, pairs, input_lang, output_lang, encoder, decoder, batch_s
                 'output_lang': output_lang.__dict__
             }, os.path.join(directory, '{}_{}.tar'.format(iter, 'checkpoint')))
 
-    # showPlot(plot_losses)
+    showPlot(plot_losses)
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
