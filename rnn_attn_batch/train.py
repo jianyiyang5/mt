@@ -141,8 +141,17 @@ def main():
     hidden_size = 512
     batch_size = 64
     iters = 50000
-    encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
-    attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
+    # encoder = EncoderRNN(input_lang.n_words, hidden_size).to(device)
+    encoder = EncoderRNN(input_lang.n_words, hidden_size)
+    attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1)
+    if torch.cuda.device_count() > 1:
+        print("Let's use", torch.cuda.device_count(), "GPUs!")
+        encoder = nn.DataParallel(encoder)
+        attn_decoder = nn.DataParallel(attn_decoder)
+    encoder = encoder.to(device)
+    attn_decoder = attn_decoder.to(device)
+
+    # attn_decoder = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
     trainIters(device, pairs, input_lang, output_lang, encoder, attn_decoder, batch_size, iters, print_every=250)
 
 if __name__ == '__main__':
