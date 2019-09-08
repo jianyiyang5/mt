@@ -89,6 +89,8 @@ class AttnDecoderRNN(nn.Module):
         self.attn = Attn(attn_model, hidden_size)
 
     def forward(self, input, last_hidden, encoder_outputs):
+        input = input.transpose(0, 1)
+        last_hidden = last_hidden.transpose(0, 1)
         # Note: we run this one step (word) at a time
         # Get embedding of current input word
         embedded = self.embedding(input)

@@ -52,7 +52,7 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     if use_teacher_forcing:
         for t in range(max_target_len):
             decoder_output, decoder_hidden = decoder(
-                decoder_input, decoder_hidden, encoder_outputs
+                decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs
             )
             # Teacher forcing: next input is current target
             decoder_input = target_variable[t].view(1, -1)
@@ -64,7 +64,7 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     else:
         for t in range(max_target_len):
             decoder_output, decoder_hidden = decoder(
-                decoder_input, decoder_hidden, encoder_outputs
+                decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs
             )
             # No teacher forcing: next input is decoder's own current output
             _, topi = decoder_output.topk(1)
