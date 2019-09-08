@@ -26,6 +26,7 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
 
     # Set device options
     input_variable = input_variable.to(device)
+    input_variable = input_variable.transpose(0, 1)
     lengths = lengths.to(device)
     target_variable = target_variable.to(device)
     mask = mask.to(device)

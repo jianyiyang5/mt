@@ -14,6 +14,8 @@ class EncoderRNN(nn.Module):
                           dropout=(0 if layers == 1 else dropout_p), bidirectional=True)
 
     def forward(self, input, input_lengths, hidden=None):
+        input = input.transpose(0, 1)
+        input_lengths = input_lengths.transpose(0, 1)
         # Convert word indexes to embeddings
         embedded = self.embedding(input)
         # Pack padded batch of sequences for RNN module
