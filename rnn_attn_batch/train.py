@@ -47,6 +47,7 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
 
     # Set initial decoder hidden state to the encoder's final hidden state
     decoder_hidden = encoder_hidden[:decoder.module.layers]
+    print('debug encoder_hidden size=%s, decoder_hidden size=%s'%(encoder_hidden.size(), decoder_hidden.size()))
 
     # Determine if we are using teacher forcing this iteration
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
