@@ -14,6 +14,7 @@ class EncoderRNN(nn.Module):
                           dropout=(0 if layers == 1 else dropout_p), bidirectional=True)
 
     def forward(self, input, input_lengths, hidden=None):
+        print('debug in encoder, input size=%s'%input.size())
         input = input.transpose(0, 1)
         # Convert word indexes to embeddings
         embedded = self.embedding(input)
@@ -72,7 +73,7 @@ class AttnDecoderRNN(nn.Module):
     def __init__(self, hidden_size, output_size, layers=3, dropout_p=0.1, attn_model='dot'):
         super(AttnDecoderRNN, self).__init__()
 
-        # Keep for reference
+        # Keep for referencef
         self.attn_model = attn_model
         self.hidden_size = hidden_size
         self.output_size = output_size

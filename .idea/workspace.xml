@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64135569-16be-4dd7-b3f2-ddc5b8315b2a" name="Default Changelist" comment="">
+    <list default="true" id="64135569-16be-4dd7-b3f2-ddc5b8315b2a" name="Default Changelist" comment="access internal module">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rnn_attn_batch/bpe.sh" beforeDir="false" afterPath="$PROJECT_DIR$/rnn_attn_batch/bpe.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rnn_attn_batch/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/rnn_attn_batch/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rnn_attn_batch/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/rnn_attn_batch/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,65 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="150">
-                <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/subword-nmt/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="390">
-                <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rnn_attn_batch/train.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rnn_attn_batch/bpe.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rnn_attn_batch/split_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rnn_attn_batch/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
+            <state relative-caret-position="195">
+              <caret line="16" column="60" selection-start-line="16" selection-start-column="60" selection-end-line="16" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -79,44 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rnn_attn_batch/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="693">
-              <caret line="140" column="21" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rnn_attn_batch/helper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="15" column="54" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rnn_attn/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="67" column="23" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rnn_attn_batch/prepare_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+            <state relative-caret-position="545">
+              <caret line="146" column="14" selection-start-line="146" selection-start-column="4" selection-end-line="146" selection-end-column="14" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -147,6 +59,10 @@
       <find>dim</find>
       <find>view</find>
       <find>test.ref</find>
+      <find>to(device)</find>
+      <find>target_variable</find>
+      <find>layers</find>
+      <find>batch_size</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -163,22 +79,22 @@
         <option value="$PROJECT_DIR$/rnn_attn_batch/data.py" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/preprocess.py" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/multi-bleu.perl" />
-        <option value="$PROJECT_DIR$/rnn_attn_batch/model.py" />
-        <option value="$PROJECT_DIR$/rnn_attn_batch/train.py" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/prepare_data.py" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/decode.py" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/eval.py" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/rnn_attn_batch/train.sh" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/split_data.py" />
         <option value="$PROJECT_DIR$/rnn_attn_batch/bpe.sh" />
+        <option value="$PROJECT_DIR$/rnn_attn_batch/train.sh" />
+        <option value="$PROJECT_DIR$/rnn_attn_batch/plot.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/rnn_attn_batch/train.py" />
+        <option value="$PROJECT_DIR$/rnn_attn_batch/model.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="1027" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -310,20 +226,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565198793098</updated>
-    </task>
-    <task id="LOCAL-00001" summary="init checkin batch=1, with gpu, gru+attn">
-      <created>1565198961669</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1565198961669</updated>
-    </task>
-    <task id="LOCAL-00002" summary="init checkin batch=1, with gpu, gru+attn">
-      <created>1565198986542</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1565198986542</updated>
     </task>
     <task id="LOCAL-00003" summary="init checkin batch=1, with gpu, gru+attn">
       <created>1565247946911</created>
@@ -570,7 +472,105 @@
       <option name="project" value="LOCAL" />
       <updated>1567617309850</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="bpe">
+      <created>1567621461633</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1567621461633</updated>
+    </task>
+    <task id="LOCAL-00039" summary="bpe">
+      <created>1567664933960</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1567664933960</updated>
+    </task>
+    <task id="LOCAL-00040" summary="multi gpu">
+      <created>1567751816680</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1567751816681</updated>
+    </task>
+    <task id="LOCAL-00041" summary="transpose dimensions for split data">
+      <created>1567924931947</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1567924931947</updated>
+    </task>
+    <task id="LOCAL-00042" summary="transpose dimensions for split data">
+      <created>1567925279452</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1567925279452</updated>
+    </task>
+    <task id="LOCAL-00043" summary="access internal module">
+      <created>1567926551598</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1567926551598</updated>
+    </task>
+    <task id="LOCAL-00044" summary="access internal module">
+      <created>1567927169126</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1567927169126</updated>
+    </task>
+    <task id="LOCAL-00045" summary="access internal module">
+      <created>1568011238826</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1568011238826</updated>
+    </task>
+    <task id="LOCAL-00046" summary="debug decoder">
+      <created>1568156078246</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1568156078246</updated>
+    </task>
+    <task id="LOCAL-00047" summary="access internal module">
+      <created>1568156886893</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1568156886893</updated>
+    </task>
+    <task id="LOCAL-00048" summary="access internal module">
+      <created>1568157176302</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1568157176302</updated>
+    </task>
+    <task id="LOCAL-00049" summary="access internal module">
+      <created>1568157352232</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1568157352232</updated>
+    </task>
+    <task id="LOCAL-00050" summary="access internal module">
+      <created>1568157533923</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1568157533924</updated>
+    </task>
+    <task id="LOCAL-00051" summary="access internal module">
+      <created>1568157753660</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1568157753660</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -613,14 +613,19 @@
     <MESSAGE value="eos to prevent decoding for max_len" />
     <MESSAGE value="more print" />
     <MESSAGE value="transformer done" />
-    <option name="LAST_COMMIT_MESSAGE" value="transformer done" />
+    <MESSAGE value="bpe" />
+    <MESSAGE value="multi gpu" />
+    <MESSAGE value="transpose dimensions for split data" />
+    <MESSAGE value="debug decoder" />
+    <MESSAGE value="access internal module" />
+    <option name="LAST_COMMIT_MESSAGE" value="access internal module" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/rnn_attn_batch/model.py</url>
-          <line>17</line>
+          <line>19</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
@@ -850,13 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="20" lean-forward="true" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2018.3/python_stubs/-714464281/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5524">
@@ -911,16 +909,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/eval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1755">
-          <caret line="126" column="28" selection-start-line="126" selection-start-column="28" selection-end-line="126" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rnn_attn_batch/helper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -941,33 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/prepare_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="150">
-            <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/subword-nmt/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -978,37 +939,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/train.py">
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/train.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="140" column="21" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
+        <state relative-caret-position="105">
+          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/eval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1965">
+          <caret line="140" column="16" selection-start-line="140" selection-start-column="4" selection-end-line="140" selection-end-column="16" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/train.sh">
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/bpe.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rnn_attn_batch/split_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+        <state relative-caret-position="240">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/bpe.sh">
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/plot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+        <state relative-caret-position="195">
+          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/prepare_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="330">
+            <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="545">
+          <caret line="146" column="14" selection-start-line="146" selection-start-column="4" selection-end-line="146" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rnn_attn_batch/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="60" selection-start-line="16" selection-start-column="60" selection-end-line="16" selection-end-column="60" />
         </state>
       </provider>
     </entry>

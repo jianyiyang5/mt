@@ -9,20 +9,17 @@
 - [x] transformer
 - [x] bpe
   - BLEU = 38.97, 68.9/45.1/32.5/24.2 (BP=0.985, ratio=0.985, hyp_len=104484, ref_len=106023)
-- [ ] beam search
+- beam search
 - [ ] multi gpu
-- [ ] plot
-
-
-
-- [ ] data iter
-- [ ] en-zh, zh-en
+- plot
+- data iter
+- en-zh, zh-en
 - [ ] multi node
-- [ ] larger batch size, accumulate gradient, large lr, half precision
-- [ ] beam search pruning
-- [ ] bottleneck layer
-- [ ] avg attn
-- [ ] shortlist
+- larger batch size, accumulate gradient, large lr, half precision
+- beam search pruning
+- bottleneck layer
+- avg attn
+- shortlist
 - [ ] data selection?
 - [ ] common crawl?
-- [ ] cnn
+- cnn

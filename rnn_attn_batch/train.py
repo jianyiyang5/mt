@@ -46,8 +46,8 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     decoder_input = decoder_input.to(device)
 
     # Set initial decoder hidden state to the encoder's final hidden state
-    # decoder_hidden = encoder_hidden[:decoder.module.layers]
-    decoder_hidden = encoder_hidden[:decoder.layers]
+    decoder_hidden = encoder_hidden[:decoder.module.layers]
+    # decoder_hidden = encoder_hidden[:decoder.layers]
     print('debug encoder_hidden size=%s, decoder_hidden size=%s, batch_size=%s'%(encoder_hidden.size(), decoder_hidden.size(), batch_size))
 
     # Determine if we are using teacher forcing this iteration
@@ -152,7 +152,7 @@ def main():
     if torch.cuda.device_count() > 1:
         print("Let's use", torch.cuda.device_count(), "GPUs!")
         encoder = nn.DataParallel(encoder)
-        # attn_decoder = nn.DataParallel(attn_decoder)
+        attn_decoder = nn.DataParallel(attn_decoder)
     encoder = encoder.to(device)
     attn_decoder = attn_decoder.to(device)
 
