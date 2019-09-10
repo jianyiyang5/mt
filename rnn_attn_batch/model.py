@@ -96,6 +96,8 @@ class AttnDecoderRNN(nn.Module):
         embedded = self.embedding(input)
         embedded = self.embedding_dropout(embedded)
         # Forward through unidirectional GRU
+        print('debug embedded size=', embedded.size())
+        print('debug last_hidden size=', last_hidden.size())
         rnn_output, hidden = self.gru(embedded, last_hidden)
         # Calculate attention weights from the current GRU output
         attn_weights = self.attn(rnn_output, encoder_outputs)
