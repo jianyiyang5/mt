@@ -14,7 +14,7 @@ class EncoderRNN(nn.Module):
                           dropout=(0 if layers == 1 else dropout_p), bidirectional=True)
 
     def forward(self, input, input_lengths, hidden=None):
-        print('debug in encoder, input size=%s'%input.size())
+        print('debug in encoder, input size=', input.size())
         input = input.transpose(0, 1)
         # Convert word indexes to embeddings
         embedded = self.embedding(input)
