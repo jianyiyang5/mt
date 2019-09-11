@@ -42,7 +42,7 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     print('encoder_hidden size=', encoder_hidden.size())
 
     encoder_outputs = encoder_outputs.transponse(0,1)
-    encoder_hidden = encoder_hidden.tranpose(0,1)
+    encoder_hidden = encoder_hidden.transpose(0,1)
 
     # Create initial decoder input (start with SOS tokens for each sentence)
     decoder_input = torch.LongTensor([[SOS_token for _ in range(batch_size)]])

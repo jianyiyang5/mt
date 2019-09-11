@@ -27,7 +27,7 @@ class EncoderRNN(nn.Module):
         # Sum bidirectional GRU outputs
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, :, self.hidden_size:]
         # Return output and final hidden state
-        return outputs.transpose(0,1), hidden.tranpose(0,1)
+        return outputs.transpose(0,1), hidden.transpose(0,1)
 
 # Luong attention layer
 class Attn(nn.Module):
@@ -114,4 +114,4 @@ class AttnDecoderRNN(nn.Module):
         output = self.out(concat_output)
         output = F.softmax(output, dim=1)
         # Return output and final hidden state
-        return output.transpose(0,1), hidden.tranpose(0,1)
+        return output.transpose(0,1), hidden.transpose(0,1)
