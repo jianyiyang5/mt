@@ -27,7 +27,7 @@ class EncoderRNN(nn.Module):
         # Sum bidirectional GRU outputs
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, :, self.hidden_size:]
         # Return output and final hidden state
-        return outputs, hidden
+        return outputs.transpose(0,1), hidden.tranpose(0,1)
 
 # Luong attention layer
 class Attn(nn.Module):
@@ -92,6 +92,7 @@ class AttnDecoderRNN(nn.Module):
     def forward(self, input, last_hidden, encoder_outputs):
         input = input.transpose(0, 1)
         last_hidden = last_hidden.transpose(0, 1)
+        encoder_outputs = encoder_outputs.transpose(0,1)
         # Note: we run this one step (word) at a time
         # Get embedding of current input word
         embedded = self.embedding(input)
@@ -113,4 +114,4 @@ class AttnDecoderRNN(nn.Module):
         output = self.out(concat_output)
         output = F.softmax(output, dim=1)
         # Return output and final hidden state
-        return output, hidden
+        return output.transpose(0,1), hidden.tranpose(0,1)

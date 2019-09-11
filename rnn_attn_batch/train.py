@@ -41,6 +41,9 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     print('encoder_outputs size=', encoder_outputs.size())
     print('encoder_hidden size=', encoder_hidden.size())
 
+    encoder_outputs = encoder_outputs.transponse(0,1)
+    encoder_hidden = encoder_hidden.tranpose(0,1)
+
     # Create initial decoder input (start with SOS tokens for each sentence)
     decoder_input = torch.LongTensor([[SOS_token for _ in range(batch_size)]])
     decoder_input = decoder_input.to(device)
@@ -56,8 +59,10 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     if use_teacher_forcing:
         for t in range(max_target_len):
             decoder_output, decoder_hidden = decoder(
-                decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs
+                decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs.transpose(0,1)
             )
+            decoder_output = decoder_output.transpose(0,1)
+            decoder_hidden = decoder_hidden.transpose(0,1)
             # Teacher forcing: next input is current target
             decoder_input = target_variable[t].view(1, -1)
             # Calculate and accumulate loss
@@ -68,8 +73,10 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     else:
         for t in range(max_target_len):
             decoder_output, decoder_hidden = decoder(
-                decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs
+                decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs.transpose(0,1)
             )
+            decoder_output = decoder_output.transpose(0, 1)
+            decoder_hidden = decoder_hidden.transpose(0, 1)
             # No teacher forcing: next input is decoder's own current output
             _, topi = decoder_output.topk(1)
             decoder_input = torch.LongTensor([[topi[i][0] for i in range(batch_size)]])
