@@ -77,6 +77,8 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
             decoder_output, decoder_hidden = decoder(
                 decoder_input.transpose(0, 1), decoder_hidden.transpose(0, 1), encoder_outputs.transpose(0,1)
             )
+            print('debug 80 decoder_output size', decoder_output.size())
+            print('debug 80 decoder_hidden size', decoder_hidden.size())
             decoder_output = decoder_output.transpose(0, 1)
             decoder_hidden = decoder_hidden.transpose(0, 1)
             # No teacher forcing: next input is decoder's own current output
