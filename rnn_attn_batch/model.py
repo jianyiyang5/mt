@@ -13,7 +13,7 @@ class EncoderRNN(nn.Module):
         self.gru = nn.GRU(hidden_size, hidden_size, self.layers,
                           dropout=(0 if layers == 1 else dropout_p), bidirectional=True)
 
-    def forward(self, input, input_lengths, curMaxLen=50, hidden=None):
+    def forward(self, input, input_lengths, device, curMaxLen=50, hidden=None):
         print('debug in encoder, input size=', input.size())
         print('debug in encoder, input_lengths size=', input_lengths.size())
         input = input.transpose(0, 1)
@@ -31,7 +31,7 @@ class EncoderRNN(nn.Module):
         # Return output and final hidden state
         print('debug in encoder, outputs size=', outputs.size())
         append_size = curMaxLen-outputs.size()[0]
-        outputs = torch.cat((outputs, torch.zeros(append_size, outputs.size()[1], outputs.size()[2])), 0)
+        outputs = torch.cat((outputs, torch.zeros(append_size, outputs.size()[1], outputs.size()[2]).to(device)), 0)
         return outputs.transpose(0,1), hidden.transpose(0,1)
 
 # Luong attention layer

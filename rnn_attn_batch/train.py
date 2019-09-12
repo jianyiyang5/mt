@@ -39,7 +39,8 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     # Forward pass through encoder
     print('debug 40 input_variable size=', input_variable.size())
     print('debug 40 lengths size=', lengths.size())
-    encoder_outputs, encoder_hidden = encoder(input_variable, lengths)
+    curMaxLen = torch.max(lengths)
+    encoder_outputs, encoder_hidden = encoder(input_variable, lengths, device, curMaxLen)
     print('debug encoder_outputs size=', encoder_outputs.size())
     print('debug encoder_hidden size=', encoder_hidden.size())
 
