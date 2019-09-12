@@ -103,7 +103,8 @@ class AttnDecoderRNN(nn.Module):
         # Forward through unidirectional GRU
         print('debug embedded size=', embedded.size())
         print('debug last_hidden size=', last_hidden.size())
-        rnn_output, hidden = self.gru(embedded, last_hidden)
+        rnn_output, hidden = self.gru(embedded.contiguous(), last_hidden.contiguous())
+        print('debug in decoder, after gru')
         # Calculate attention weights from the current GRU output
         attn_weights = self.attn(rnn_output, encoder_outputs)
         # Multiply attention weights to encoder outputs to get new "weighted sum" context vector
