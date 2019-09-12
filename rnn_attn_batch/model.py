@@ -20,11 +20,11 @@ class EncoderRNN(nn.Module):
         # Convert word indexes to embeddings
         embedded = self.embedding(input)
         # Pack padded batch of sequences for RNN module
-        packed = nn.utils.rnn.pack_padded_sequence(embedded, input_lengths)
+        # packed = nn.utils.rnn.pack_padded_sequence(embedded, input_lengths)
         # Forward pass through GRU
-        outputs, hidden = self.gru(packed, hidden)
+        outputs, hidden = self.gru(embedded, hidden)
         # Unpack padding
-        outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
+        # outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
         print('debug in encoder 28, outputs size=', outputs.size())
         # Sum bidirectional GRU outputs
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, :, self.hidden_size:]
