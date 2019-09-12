@@ -15,6 +15,7 @@ class EncoderRNN(nn.Module):
 
     def forward(self, input, input_lengths, hidden=None):
         print('debug in encoder, input size=', input.size())
+        print('debug in encoder, input_lengths size=', input_lengths.size())
         input = input.transpose(0, 1)
         # Convert word indexes to embeddings
         embedded = self.embedding(input)
@@ -24,9 +25,11 @@ class EncoderRNN(nn.Module):
         outputs, hidden = self.gru(packed, hidden)
         # Unpack padding
         outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
+        print('debug in encoder 28, outputs size=', outputs.size())
         # Sum bidirectional GRU outputs
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, :, self.hidden_size:]
         # Return output and final hidden state
+        print('debug in encoder, outputs size=', outputs.size())
         return outputs.transpose(0,1), hidden.transpose(0,1)
 
 # Luong attention layer

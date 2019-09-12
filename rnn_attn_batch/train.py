@@ -37,9 +37,11 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
     n_totals = 0
 
     # Forward pass through encoder
+    print('debug 40 input_variable size=', input_variable.size())
+    print('debug 40 lengths size=', lengths.size())
     encoder_outputs, encoder_hidden = encoder(input_variable, lengths)
-    print('encoder_outputs size=', encoder_outputs.size())
-    print('encoder_hidden size=', encoder_hidden.size())
+    print('debug encoder_outputs size=', encoder_outputs.size())
+    print('debug encoder_hidden size=', encoder_hidden.size())
 
     encoder_outputs = encoder_outputs.transponse(0,1)
     encoder_hidden = encoder_hidden.transpose(0,1)
