@@ -68,6 +68,9 @@ def train(device, input_variable, lengths, target_variable, mask, max_target_len
             # Teacher forcing: next input is current target
             decoder_input = target_variable[t].view(1, -1)
             # Calculate and accumulate loss
+            print('debug 71, decoder_output', decoder_output.size())
+            print('debug 71, target_variable[t]', target_variable[t].size())
+            print('debug 71, mask[t]', mask[t].size())
             mask_loss, nTotal = maskNLLLoss(decoder_output, target_variable[t], mask[t], device)
             loss += mask_loss
             print_losses.append(mask_loss.item() * nTotal)
