@@ -104,7 +104,7 @@ class AttnDecoderRNN(nn.Module):
         print('debug embedded size=', embedded.size())
         print('debug last_hidden size=', last_hidden.size())
         rnn_output, hidden = self.gru(embedded.contiguous(), last_hidden.contiguous())
-        print('debug in decoder, after gru')
+        print('debug in decoder, after gru rnn_output', rnn_output.size())
         # Calculate attention weights from the current GRU output
         attn_weights = self.attn(rnn_output, encoder_outputs)
         # Multiply attention weights to encoder outputs to get new "weighted sum" context vector
@@ -117,5 +117,6 @@ class AttnDecoderRNN(nn.Module):
         # Predict next word using Luong eq. 6
         output = self.out(concat_output)
         output = F.softmax(output, dim=1)
+        print('debug decoder before return output=', output.size())
         # Return output and final hidden state
         return output.transpose(0,1), hidden.transpose(0,1)
