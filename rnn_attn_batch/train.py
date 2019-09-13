@@ -14,6 +14,7 @@ teacher_forcing_ratio = 0.9
 
 def maskNLLLoss(inp, target, mask, device):
     nTotal = mask.sum()
+    print('debug 17, inp size', inp.size(), 'target size', target.view(-1, 1).size())
     crossEntropy = -torch.log(torch.gather(inp, 1, target.view(-1, 1)).squeeze(1))
     loss = crossEntropy.masked_select(mask).mean()
     loss = loss.to(device)
