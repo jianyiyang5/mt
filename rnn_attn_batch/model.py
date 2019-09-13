@@ -119,4 +119,4 @@ class AttnDecoderRNN(nn.Module):
         output = F.softmax(output, dim=1)
         print('debug decoder before return output=', output.size())
         # Return output and final hidden state
-        return output.transpose(0,1), hidden.transpose(0,1)
+        return output, hidden.transpose(0,1)
